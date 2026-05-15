@@ -25,15 +25,31 @@ RUN apt-get update && apt-get install -y \
     openssh-client \
     gcc \
     wget \
-    xvfb
+    xvfb \
+    && rm -rf /var/lib/apt/lists/*
 
 
 WORKDIR /workspace
 
-RUN wget https://n9.mpw.sh/sdk/QtSdk-offline-linux-x86_64-v1.2.1.zip -O /workspace/QtSDK.zip
-RUN unzip QtSDK.zip || true
+#RUN curl -fsSL https://n9.mpw.sh/sdk/QtSdk-offline-linux-x86_64-v1.2.1.zip -o QtSDK.zip
+COPY QtSDK.zip /workspace/
+RUN unzip QtSDK.zip
+COPY install.qs /workspace/
+
 RUN xvfb-run -a ./QtSdk-offline-linux-x86_64-v1.2.1.run --script install.qs --verbose \
- && rm -f QtSdk-offline-linux-x86_64-v1.2.1.run QtSDK.zip
+ && rm -f QtSdk-offline-linux-x86_64-v1.2.1.run QtSDK.zip \
+ && rm -rf \
+      /opt/QtSDK/Simulator \
+      /opt/QtSDK/QtCreator \
+      /opt/QtSDK/Symbian \
+      /opt/QtSDK/Desktop \
+      /opt/QtSDK/Documentation \
+      /opt/QtSDK/Examples \
+      /opt/QtSDK/Demos \
+      /opt/QtSDK/QtSources \
+      /opt/QtSDK/SDKMaintenanceTool* \
+      /opt/QtSDK/.tempSDKMaintenanceTool \
+      /opt/QtSDK/Madde/postinstall
 
 ENV PATH=/opt/QtSDK/Madde/bin:$PATH
 

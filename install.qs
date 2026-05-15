@@ -14,9 +14,17 @@ Controller.prototype.TargetDirectoryPageCallback = function() {
 
 Controller.prototype.ComponentSelectionPageCallback = function() {
     var widget = gui.currentPageWidget();
-    // Skip simulator components that are failing
-    widget.deselectComponent("com.nokia.ndk.tools.simulator");
-    widget.deselectComponent("com.nokia.ndk.tools.simulator.application");
+
+    // Deselect everything we don't need for headless cross-compile builds
+    widget.deselectAll();
+
+    // Then select only what we need
+    widget.selectComponent("com.nokia.ndk.tools.madde.application");
+    widget.selectComponent("com.nokia.ndk.tools.madde.toolchains.2009q367");
+    widget.selectComponent("com.nokia.ndk.tools.madde.qttools.474");
+    widget.selectComponent("com.nokia.ndk.tools.harmattan.sysroot");
+    widget.selectComponent("com.nokia.ndk.tools.harmattan.qtcomponents");
+
     gui.clickButton(buttons.NextButton);
 }
 
