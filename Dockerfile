@@ -31,7 +31,7 @@ COPY install.qs ./
 # Fetch, unzip, install, and trim — ALL IN ONE LAYER.
 # Critical: separate RUNs would leave the .zip + extracted .run in lower
 # layers, bloating the image to ~3.5GB.
-RUN curl -fsSL https://n9.mpw.sh/sdk/QtSdk-offline-linux-x86_64-v1.2.1.zip -o QtSDK.zip \
+RUN curl -fsSL https://r2.mpw.sh/sdk/QtSdk-offline-linux-x86_64-v1.2.1.zip -o QtSDK.zip \
   && unzip -q QtSDK.zip \
   && rm QtSDK.zip \
   && xvfb-run -a ./QtSdk-offline-linux-x86_64-v1.2.1.run --script install.qs --verbose \
